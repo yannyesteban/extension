@@ -1,16 +1,20 @@
 {
 
-  "description": "Altering HTTP responses",
   "manifest_version": 2,
-  "name": "http-response-filter",
+  "name": "Borderify",
   "version": "1.0",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/http-response",
+
+  "description": "Adds a red border to all webpages matching mozilla.org.",
+
   "icons": {
-    "48": "pen.svg"
+    "48": "icons/border-48.png"
   },
 
   "permissions": [
-    "webRequest", "webRequestBlocking", "<all_urls>","webNavigation"
+    "webRequest", "webRequestBlocking", "<all_urls>","webNavigation",
+    "activeTab",
+        "contextMenus",
+        "clipboardWrite", "webRequestFilterResponse"
   ],
 
   "web_accessible_resources": [
@@ -19,20 +23,14 @@
   
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
 
   "content_scripts": [
     {
-      "matches": ["https://prisma2.com/*"],
-      "js": ["borderify.js"]
+      "matches": ["*://*.nadlan.taxes.gov.il/*"],
+      "js": ["jquery.js", "main.js"]
     }
-  ],
-
-  "browser_specific_settings": {
-    "gecko": {
-      "strict_min_version": "57.0a1"
-    }
-  }
+  ]
 
 }
