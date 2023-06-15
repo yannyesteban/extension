@@ -1,0 +1,34 @@
+.layer{
+    position:absolute;
+    left:50%;
+    top:10px;
+
+    width:100px;
+    height:100px;
+    background-color: aqua;
+
+    overflow: auto;
+    direction: ltr;
+    text-align: left;
+    z-index: 10000000;
+
+}
+
+
+.layer:hover{
+    left:50%;
+    top:10px;
+
+    width:600px;
+    height:300px; 
+    overflow: auto;
+    direction: ltr;
+    z-index: 10000000;
+}
+
+
+.link1{
+    cursor: pointer;
+    margin:1px;
+    border:1px solid red;
+}

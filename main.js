@@ -1,3 +1,21 @@
+let input = {}
+
+input.page = 1;
+input.save = false;
+
+
+if(window.location.href.includes("nadlan.taxes.gov.il/svinfonadlan2010/startpageNadlanNewDesign.aspx")){
+    document.body.style.border = "4px solid yellow";
+    stage0.parse();
+}else if(window.location.href.includes("nadlan.taxes.gov.il/svinfonadlan2010/InfoNadlanPerutWithMap.aspx")){
+    stage1.parse();
+    document.body.style.border = "4px solid blue";
+}else if(window.location.href.includes("nadlan.taxes.gov.il/svinfonadlan2010/perutOfDira.aspx")){
+    stage2.parse();
+    document.body.style.border = "4px solid red";
+}
+
+
 var cases = {
     index:0
 };
@@ -35,6 +53,8 @@ chrome.runtime.onMessage.addListener((request) => {
     
     if (request.sc == "ok") {
         let query = JSON.parse(request.jscript);
+
+        return;
         console.log(proccessResultsUsingTagResponse(query.d))
         
         
@@ -89,7 +109,7 @@ function wait(fn, delay) {
     setTimeout(fn, delay);
 }
 
-document.body.style.border = "5px solid purple";
+//document.body.style.border = "5px solid yellow";
 
 let button = document.createElement("button");
 
@@ -139,6 +159,16 @@ if (!theForm) {
 }
 function doPostBack(eventTarget, eventArgument) {
     if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+
+        if(eventArgument){
+            let url = theForm.action;
+            url = url.replace(/stage=.*/ig, "stage="+(eventArgument.replace(/[^0-9]+/ig, "")))
+            
+            
+            
+            
+            theForm.action = url; 
+        }
         theForm.__EVENTTARGET.value = eventTarget;
         theForm.__EVENTARGUMENT.value = eventArgument;
         theForm.submit();
@@ -202,13 +232,13 @@ button.addEventListener("click", () => {
 
     document.querySelector("#ContentUsersPage_DDLTypeNehes").dispatchEvent(change)
     setTimeout(() => {
-        console.log("xxxxxxxxxxxx")
+        
         Val("#ContentUsersPage_DDLMahutIska", "999");
         Val("#ContentUsersPage_DDLDateType", "2");
         document.querySelector("#ContentUsersPage_DDLDateType").dispatchEvent(change)
     }, 5000)
 
-    console.log("yyyyyy")
+    
 
     //document.querySelector("#ContentUsersPage_btnHipus").click()
 
@@ -238,7 +268,7 @@ button2.addEventListener("click", () => {
         name:"stage1",
         data: p
     })
-    console.log(p)
+    
 })
 
 button3.addEventListener("click", () => {
@@ -252,18 +282,18 @@ button3.addEventListener("click", () => {
         name:"stage1"
     }, (response) => { 
 
-        console.log(r)
-        console.log(response.rows)
+        //console.log(r)
+        //console.log(response.rows)
         response.rows.forEach((row)=>{
             if(r.details?.numberId == row.numberId){
-                //r.details = {...row, ...r.details} 
+                r.details = {...row, ...r.details} 
             }
         })
         
         
 
         //console.log('received user data', response);
-
+        console.log(r)
         download(r);
         //console.log("stage1", response)
         //console.log(r, response)
@@ -275,10 +305,7 @@ button3.addEventListener("click", () => {
     
     
 })
-let input = {}
 
-input.page = 1;
-input.svae = false;
 
 function parse() {
 
@@ -996,7 +1023,8 @@ function parse3() {
                 .set('pricePerSquereMeter', Number(parseFloat($('#ContentUsersPage_lblMechirLmr ').text().trim().replace(/\,/g, ''))), 0, 50) //  (מחיר למ"ר) en hebreo. Esta es una expresión común en el mercado inmobiliario y se utiliza para describir el precio de una propiedad en función de su tamaño.
                 .set('yearOfConstruction', Number(parseInt($('#ContentUsersPage_lblShnatBniya ').text().trim())), 0, 1960) //"Shnat Bniya" (שנת בנייה) es una expresión en hebreo que se traduce al español como "año de construcción". 
 
-                .set('id', hash(JSON.stringify(this.getAll())));
+               // .set('id', hash(JSON.stringify(this.getAll())));
+               //.set('id', );
 
         }
 
@@ -1209,7 +1237,7 @@ function getLinks() {
 
 
 async function proccessResultsUsingTagResponse(points) {
-    console.log(points)
+   // console.log(points)
 
 
     if(points.length<=0){

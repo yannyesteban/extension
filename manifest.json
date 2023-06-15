@@ -29,7 +29,8 @@
   "content_scripts": [
     {
       "matches": ["*://*.nadlan.taxes.gov.il/*"],
-      "js": ["jquery.js", "main.js"]
+      "js": ["jquery.js", "FileSave.js","stage0.js", "stage1.js", "stage2.js", "input1.js", "main.js"],
+      "css":        ["main.css"]
     }
   ]
 
