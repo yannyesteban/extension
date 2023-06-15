@@ -53,7 +53,7 @@ chrome.runtime.onMessage.addListener((request) => {
     
     if (request.sc == "ok") {
         let query = JSON.parse(request.jscript);
-
+        console.log(query)
         return;
         console.log(proccessResultsUsingTagResponse(query.d))
         

@@ -92,6 +92,8 @@ chrome.webRequest.onBeforeRequest.addListener(
     }, function (response) {});
 });
 */
+
+console.log(details.url);
 if(details.url!="https://nadlan.taxes.gov.il/svinfonadlan2010/InfoNadlanPerutWithMap.aspx/GetPoints"){
         //filter.disconnect();
         //return {redirectUrl: details.url};
