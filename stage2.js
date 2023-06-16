@@ -11,7 +11,7 @@ stage2.parse = ()=>{
 
     let id = r.details.numberId;
 
-    let stage = window.localStorage.getItem("stage");
+    let stage = window.localStorage.getItem("lines");
 
     if(stage){
         stage = JSON.parse(stage)
@@ -19,16 +19,14 @@ stage2.parse = ()=>{
         stage = {}
     }
 
-    if(!stage["lines"]){
-        stage["lines"] = {}
-    }
-    stage["lines"][id] = r
+    
+    stage[id] = r
 
     
 
-    window.localStorage.setItem("stage", JSON.stringify(stage))
+    window.localStorage.setItem("lines", JSON.stringify(stage))
 
-
+    document.title = $("#ContentUsersPage_lblGush").text();
     
 
 

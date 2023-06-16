@@ -4,6 +4,10 @@ let stage0 = {};
 
 stage0.parse = ()=>{
     console.log("STAGE 0")
+    window.localStorage.removeItem("stage");
+    window.localStorage.removeItem("lines");
+    window.localStorage.removeItem("runner");
+    window.localStorage.setItem("runner", JSON.stringify({}));
 }
 let Input = {};
 stage0.setInput = ()=>{
@@ -53,5 +57,9 @@ stage0.setInput = ()=>{
     
     
 }
+
+
 //$("#form1").attr("action", $("#form1").attr("action")+ "&stage=1") 
-$("#ContentUsersPage_btnHipus").css("display", "none");
+
+
+//$("#ContentUsersPage_btnHipus").css("display", "none");

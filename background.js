@@ -1,8 +1,104 @@
 let info = {
+  json: null,
   stagex: {
     d: 5,
   },
 };
+
+chrome.webRequest.onBeforeRequest.addListener(
+  (details) => {
+
+    let message = "";
+    let sc = "null";
+    
+
+    if (details.url != "https://nadlan.taxes.gov.il/svinfonadlan2010/InfoNadlanPerutWithMap.aspx/GetPoints") {
+      return;
+    }
+
+    
+
+    
+
+    
+    
+
+    let formData = details.requestBody;
+    //console.log("------------>", formData)
+
+    let filter = chrome.webRequest.filterResponseData(details.requestId);
+    var decoder = new TextDecoder("utf-8");
+    var encoder = new TextEncoder();
+   
+    let str = ""
+
+    filter.ondata = (event) => {
+
+      message = ""+decoder.decode(event.data, { stream: true });
+      str +=  message;
+      
+      filter.write(encoder.encode(message));
+
+      console.log(message)
+      
+      filter.disconnect();
+      //filter.close();
+
+      
+    };
+
+    filter.onstop = (event) => {
+      filter.close();
+    };
+
+    console.log(details.url);
+    console.log(details);
+
+
+    console.log("xxxxxxxxxxxxxxxx\nxxxxxxxxxxxx\n\n", str.substring(0, 20), message)
+
+
+    info.json = message;
+    
+    chrome.tabs.query(
+      {
+        //active: true,
+        url: "https://nadlan.taxes.gov.il/*",
+        currentWindow: true,
+      },
+      (tabs) => {
+        console.log(tabs);
+        chrome.tabs.sendMessage(
+
+
+          tabs[0].id,
+          {
+            sc,
+            jscript: message,
+            tabs: tabs[0],
+          },
+          function (response) {
+
+            console.log("response", response)
+          }
+        );
+      }
+    );
+    
+    return {};
+    // return { redirectUrl: browser.runtime.getURL("a.jpg") ,cancel:true};
+  },
+  {
+    urls: ["<all_urls>"],
+    types: ["script", "xmlhttprequest", "main_frame", "object"],
+  },
+  ["blocking", "requestBody"]
+);
+
+
+
+
+
 
 const user = {
   username: "demo-user",
@@ -76,120 +172,8 @@ function loga(data) {
     }
   );
 }
-let message = "A";
-let sc = "null";
 
 
 
-chrome.webRequest.onBeforeRequest.addListener(
-  (details) => {
-    /*chrome.tabs.query({
-    active: true,
-    currentWindow: true
-}, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {
-        action: "open_dialog_box"
-    }, function (response) {});
-});
-*/
-
-console.log(details.url);
-if(details.url!="https://nadlan.taxes.gov.il/svinfonadlan2010/InfoNadlanPerutWithMap.aspx/GetPoints"){
-        //filter.disconnect();
-        //return {redirectUrl: details.url};
-        return;
-      }
-    
-
-    if (!details.url.includes("InfoNadlanPerutWithMap")) {
-      //return;
-    }
-
-    console.log(details);
-    //
-    this.message = "NOTHINGGGGG";
-
-    let tmp = "ONE...";
-
-    sc = "ok";
-    let str = "200000000000005";
-
-    let formData = details.requestBody;
-    //console.log("------------>", formData)
-
-    let filter = chrome.webRequest.filterResponseData(details.requestId);
-    var decoder = new TextDecoder("utf-8");
-    var encoder = new TextEncoder();
-    let x = {
-      a: 1,
-    };
-
-    
-    filter.ondata = (event) => {
-
-      
-      str = decoder.decode(event.data, { stream: true });
-      message = "" + str;
-      // Just change any instance of Example in the HTTP response
-      // to WebExtension Example.
-      // str = str.replace(/Example/g, 'WebExtension Example');
-      filter.write(encoder.encode(str));
-
-      //loga(str)
-      //console.log(str)
-
-      x.result = str;
-      tmp = str.toString();
-      filter.disconnect();
-      //filter.close();
-
-      /*filter.onstop = event => {
-  //console.log('komplete ' + tmp);
-
-  filter.disconnect();
-};
 
 
-/*
-/*var str = decoder.decode(event.data, {stream: true});
-console.log('part ' + str);
-filter.write(encoder.encode(str));
-filter.onstop = event => {
-  console.log('komplete ' + tmp);
-  filter.disconnect();
-};
-tmp = tmp + str;*/
-    };
-
-    filter.onstop = (event) => {
-      filter.close();
-    };
-    console.log("xxxxxxxxxxxxxxxx\nxxxxxxxxxxxx\n\n", message)
-
-    chrome.tabs.query(
-      {
-        active: true,
-        currentWindow: true,
-      },
-      (tabs) => {
-        chrome.tabs.sendMessage(
-          tabs[0].id,
-          {
-            sc,
-            jscript: message,
-            tabs: tabs[0],
-          },
-          function (response) { }
-        );
-      }
-    );
-    //onsole.log(details, browser.runtime.getURL("a.jpg"))
-    return {};
-    // return { redirectUrl: browser.runtime.getURL("a.jpg") ,cancel:true};
-  },
-  {
-    urls: ["<all_urls>"],
-    types: ["script", "xmlhttprequest", "main_frame", "object"],
-  },
-  ["blocking", "requestBody"]
-);

@@ -1,37 +1,50 @@
 {
-
   "manifest_version": 2,
   "name": "Borderify",
   "version": "1.0",
-
   "description": "Adds a red border to all webpages matching mozilla.org.",
-
   "icons": {
     "48": "icons/border-48.png"
   },
-
   "permissions": [
-    "webRequest", "webRequestBlocking", "<all_urls>","webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "webNavigation",
     "activeTab",
-        "contextMenus",
-        "clipboardWrite", "webRequestFilterResponse"
+    "tabs",
+    "contextMenus",
+    "clipboardWrite",
+    "webRequestFilterResponse",
+    "<all_urls>"
   ],
-
   "web_accessible_resources": [
     "a.jpg"
   ],
-  
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
   },
-
   "content_scripts": [
     {
-      "matches": ["*://*.nadlan.taxes.gov.il/*"],
-      "js": ["jquery.js", "FileSave.js","stage0.js", "stage1.js", "stage2.js", "input1.js", "main.js"],
-      "css":        ["main.css"]
+      "matches": [
+        "*://*.nadlan.taxes.gov.il/*"
+      ],
+      "js": [
+        "jquery.js",
+        "FileSave.js",
+        "dist/runner.js",
+        "stage0.js",
+        "stage1.js",
+        "stage2.js",
+        "input1.js",
+        "parse.js",
+        "main.js"
+      ],
+      "css": [
+        "main.css"
+      ]
     }
   ]
-
 }

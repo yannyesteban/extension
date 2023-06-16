@@ -1,0 +1,25 @@
+{
+    "paths": {
+      "@main/*": ["./*"]
+      
+  },
+    "compilerOptions": {
+      "noImplicitAny": false,
+      "noEmitOnError": true,
+      "removeComments": false,
+      "sourceMap": true,
+      "target": "ES2015",
+      "outDir": "./dist",
+      
+      "lib": ["es5", "es6", "dom"],
+      "module": "es2020",
+      "moduleResolution":"node",
+      "rootDirs": ["./", "generated"]
+    },
+  
+    "include": [
+      
+      "*"
+      
+    ]
+  }
