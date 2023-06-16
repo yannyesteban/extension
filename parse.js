@@ -1,7 +1,7 @@
 function doDownload() {
 
     let r = window.localStorage.getItem("stage");
-    let linesAll = JSON.parse(window.localStorage.getItem("lines") || {});
+    let linesAll = JSON.parse(window.localStorage.getItem("lines") || "{}");
 
     
     r = JSON.parse(r);
